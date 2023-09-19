@@ -1,0 +1,37 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+
+.App {
+  text-align: center;
+  pointer-events: none;
+}
+
+
+.outer-box {
+  background-color: #81848b;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+  width: 1000px;
+  margin: auto;
+}
+
+.inner-box{
+  min-height: calc(100vh - 300px);
+  background-color: aliceblue;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  width: 1000px;
+}
+
+.App-link {
+  color: #61dafb;
+}
