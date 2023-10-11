@@ -5,60 +5,99 @@ import Footer from "./components/Footer";
 import "./App.css";
 
 function App() {
-  const [inputValue, setInputValue] = useState("");
-  const [getUrl, setGetUrl] = useState("XXX");
-  const [post, setPost] = useState("YYY");
-  const [put, setPut] = useState("ZZZ");
-  const [deleteUrl, setDeleteUrl] = useState("QQQ");
+  const [inputValue, setInputValue] = useState("input value   ");
+  const [selectValue, setSelectValue] = useState("");
+  const [getUrl, setGetUrl] = useState("");
+  const [post, setPost] = useState("");
+  const [put, setPut] = useState("");
+  const [deleteUrl, setDeleteUrl] = useState("");
 
-  const proxy = useProxy;
+  const proxy = useProxy();
 
+  //finding value of input field
   const changeInputHandler = (event) => {
     setInputValue(event.target.value);
   };
-  console.log("input value as state", inputValue);
-
-  const clickButtonHandler = (event) => {};
+  
+ // console.log("input value as state", inputValue);
 
   //get
-  async function getUrlHandler(inputValue) {
-    const getUrl = await proxy.bringGetPr(inputValue);
+  async function getUrlHandler(param) {
+    console.log("GET is called");
+    const getUrl = await proxy.bringGetPr(param);
     console.log("get", getUrl);
     setGetUrl(getUrl.status);
   }
-
-  //post
+  //  //post
   async function postHandler() {
+    console.log("POST is called");
     const obj = {
       name: inputValue,
       status: "created",
     };
     const createObj = await proxy.bringPostPr(obj);
-    setPost(createObj.name);
+    setPost(createObj.status);
   }
-
-  //put
+  // //put
   async function putHandler() {
+    console.log("PUT is called");
     const obj = {
       name: inputValue,
       status: "updated",
     };
-
     const updateObj = await proxy.bringPutPr(obj, inputValue);
-    setPut(updateObj.name);
+    setPut(updateObj.status);
   }
 
-  //delete
+  // //delete
   async function deleteHandler() {
+    console.log("DELETE is called");
     const deleteUrl = await proxy.bringDeletePr(20);
-    setDeleteUrl(deleteUrl.name);
+    setDeleteUrl(deleteUrl.status);
   }
+
+  //button
+  const clickButtonHandler = (event) => {
+    //console.log("value in select:", selectValue);
+    if (selectValue === "get") {
+      getUrlHandler(inputValue);
+    } else if (selectValue === "post") {
+      postHandler();
+    } else if (selectValue === "put") {
+      putHandler();
+    } else {
+      deleteHandler();
+    }
+  };
+ 
+
+  //selecting message for header and footer
+  const selectMessage = () => {
+    let message;
+    if (selectValue === "get") {
+      message = getUrl;
+    } else if (selectValue === "post") {
+      message = post;
+    } else if (selectValue === "put") {
+      message = put;
+    } else {
+      message = deleteUrl;
+    }
+
+    return message;
+  };
 
   return (
     <div className="outer-box">
-      <Header />
+      <Header selectMessage={selectMessage()} inputValue={inputValue}/>
       <div className="inner-box">
-        <select className="slct-style">
+        <select
+          className="slct-style"
+          onChange={(event) => {
+            setSelectValue(event.target.value);
+          }}
+          defaultValue={selectValue}
+        >
           <option value="get">GET</option>
           <option value="post">POST</option>
           <option value="put">PUT</option>
@@ -77,9 +116,10 @@ function App() {
           type="text"
           className="inp-style"
           onChange={changeInputHandler}
+          placeholder="Insert name"
         ></input>
       </div>
-      <Footer />
+      <Footer selectMessage={selectMessage()} inputValue={inputValue}/>
     </div>
   );
 }

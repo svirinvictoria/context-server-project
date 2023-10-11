@@ -1,10 +1,8 @@
 import React from "react";
-import "./Header.css"
+import "./Header.css";
 
-const Header =()=>{
-    return(
-        <h2 className="hdr-style">This is header</h2>
-    )
-}
+const Header = (props) => {
+  return <h2 className="hdr-style">{props.inputValue}, {props.selectMessage} </h2>;
+};
 
 export default Header;

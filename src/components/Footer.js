@@ -1,10 +1,8 @@
 import React from "react";
-import "./Footer.css"
+import "./Footer.css";
 
-const Footer =()=>{
-    return(
-        <h2 className="ftr-style">This is footer</h2>
-    )
-}
+const Footer = (props) => {
+  return <h2 className="ftr-style">{props.inputValue}, {props.selectMessage}</h2>;
+};
 
 export default Footer;
